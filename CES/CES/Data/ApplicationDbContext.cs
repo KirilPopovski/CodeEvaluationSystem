@@ -17,5 +17,17 @@ namespace CES.Data
         public DbSet<Models.Task> Tasks { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
+
+        public DbSet<Test> Tests { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Submission>()
+                .HasOne(s => s.Creator)
+                .WithMany(u => u.Submissions)
+                .HasForeignKey(s => s.CreatedBy);
+        }
     }
 }
